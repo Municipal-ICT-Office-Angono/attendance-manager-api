@@ -1,0 +1,18 @@
+info:
+  name: Get Employee
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: "{{base_url}}/hris/employees/30e8d2b9-d2fa-359a-b946-4672581cbd3c"
+  headers:
+    - name: ""
+      value: ""
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

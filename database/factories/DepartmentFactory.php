@@ -20,7 +20,7 @@ class DepartmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->company() . ' Department',
+            'name' => $this->faker->unique()->company().' Department',
             'code' => $this->faker->unique()->bothify('??-###'),
             'description' => $this->faker->sentence(),
         ];

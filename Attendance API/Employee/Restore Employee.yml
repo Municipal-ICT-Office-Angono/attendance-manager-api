@@ -1,0 +1,15 @@
+info:
+  name: Restore Employee
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{base_url}}/hris/employees/a26332ae-7103-392a-a37f-67a05d8c0ab7/restore"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

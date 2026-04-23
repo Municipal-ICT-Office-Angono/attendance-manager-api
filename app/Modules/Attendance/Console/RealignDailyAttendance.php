@@ -4,7 +4,7 @@ namespace App\Modules\Attendance\Console;
 
 use App\Modules\Attendance\Models\AttendanceLog;
 use App\Modules\Attendance\Models\RawBiometricLog;
-use App\Modules\Employee\Models\Employee;
+use App\Modules\HRIS\Models\Employee;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;

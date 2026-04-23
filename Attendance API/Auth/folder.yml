@@ -1,0 +1,11 @@
+info:
+  name: Auth
+  type: folder
+  seq: 1
+
+request:
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json

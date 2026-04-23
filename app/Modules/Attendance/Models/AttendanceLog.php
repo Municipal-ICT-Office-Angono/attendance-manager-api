@@ -2,7 +2,7 @@
 
 namespace App\Modules\Attendance\Models;
 
-use App\Modules\Employee\Models\Employee;
+use App\Modules\HRIS\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

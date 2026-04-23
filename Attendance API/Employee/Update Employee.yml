@@ -1,0 +1,46 @@
+info:
+  name: Update Employee
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: "{{base_url}}/hris/employees/285ef1db-0451-34e6-afd4-b831a99e3d91"
+  headers:
+    - name: Content-Type
+      value: multipart/form-data
+  body:
+    type: multipart-form
+    data:
+      - name: last_name
+        type: text
+        value: Dedoro
+      - name: first_name
+        type: text
+        value: John Nehry
+      - name: phone
+        type: text
+        value: "09760328088"
+      - name: address
+        type: text
+        value: Angono, Rizal
+      - name: employment_status
+        type: text
+        value: permanent
+      - name: schedule_id
+        type: text
+        value: "1"
+      - name: department_id
+        type: text
+        value: "1"
+      - name: profile_photo
+        type: file
+        value:
+          - C:\Users\Nehry\Downloads\38b7442a-d8cc-4004-8b94-23164d2e3d75.jpg
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

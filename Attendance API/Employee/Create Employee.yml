@@ -1,0 +1,27 @@
+info:
+  name: Create Employee
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/hris/employees"
+  body:
+    type: json
+    data: |-
+      {
+        "last_name": "Dedoro",
+        "first_name": "John Nehry",
+        "middle_name": "Cinco",
+        "phone": "09760328088",
+        "address": "Angono, Rizal",
+        "employment_status": "permanent",
+        "schedule_id": 1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
