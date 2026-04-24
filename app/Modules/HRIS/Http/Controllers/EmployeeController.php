@@ -78,6 +78,9 @@ class EmployeeController extends Controller
         return $this->success([], 'Employee deleted successfully');
     }
 
+    /*
+    *   Permanently delete an employee
+    */
     public function forceDelete(string $id): JsonResponse
     {
 
@@ -86,6 +89,9 @@ class EmployeeController extends Controller
         return $this->success([], 'Employee force deleted successfully');
     }
 
+    /*
+    *  Restore deleted employee
+    */
     public function restore(string $id): JsonResponse
     {
         $this->service->restore($id);

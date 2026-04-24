@@ -41,6 +41,9 @@ class AuthenticatedSessionController extends Controller
         return response()->noContent();
     }
 
+    /*
+    *   Get token for authenticated user
+    */
     public function getToken(Request $request)
     {
         $request->validate([
@@ -62,6 +65,9 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
+    /*
+    *   Revoke current access token
+    */
     public function revokeToken(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
