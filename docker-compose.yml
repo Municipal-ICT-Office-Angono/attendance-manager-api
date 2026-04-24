@@ -24,7 +24,6 @@ services:
       SESSION_DRIVER: redis
     volumes:
       - ./:/var/www/html
-      - ./docker/entrypoint.sh:/usr/local/bin/entrypoint.sh
     networks:
       - attendance-network
     depends_on:
