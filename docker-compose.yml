@@ -1,63 +1,113 @@
 services:
   # 1. The Main API Application
-  web:
+  laravel.test:
     build:
-      context: .
-    restart: unless-stopped
-    env_file:
-      - .env
-    depends_on:
-      - db
-      - redis
+      context: ./vendor/laravel/sail/runtimes/8.5 # Or your local Dockerfile path
+      dockerfile: Dockerfile
+      args:
+        WWWGROUP: '${WWWGROUP:-1000}'
+    image: sail-8.3/app
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    ports:
+      - '${APP_PORT:-8000}:80'
+      - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+    environment:
+      WWWUSER: '${WWWUSER}'
+      LARAVEL_SAIL: 1
+      XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+      XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+      IGNITION_LOCAL_SITES_PATH: '${PWD}'
+    volumes:
+      - '.:/var/www/html'
     networks:
-      - dokploy-network
-      - default
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.attendance.rule=Host(`attendance.angonolgu.local`)" 
-      - "traefik.http.services.attendance.loadbalancer.server.port=80"
-      - "traefik.docker.network=dokploy-network"
+      - sail
+    depends_on:
+      - pgsql
+      - redis
+
+  # web:
+  #   build:
+  #     context: .
+  #   restart: unless-stopped
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - db
+  #     - redis
+  #   networks:
+  #     # - dokploy-network
+  #     - default
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.attendance.rule=Host(`attendance.angonolgu.local`)" 
+  #     - "traefik.http.services.attendance.loadbalancer.server.port=80"
+  #     - "traefik.docker.network=dokploy-network"
+  #   ports:
+  #     - '${APP_PORT:-8000}:80'
 
   # 2. The Background Queue Worker
-  queue:
-    build:
-      context: .
-    restart: unless-stopped
-    command: php artisan queue:work --tries=3
-    env_file:
-      - .env
-    depends_on:
-      - db
-      - redis
-    networks:
-      - default
+  # queue:
+  #   build:
+  #     context: .
+  #   restart: unless-stopped
+  #   command: php artisan queue:work --tries=3
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - db
+  #     - redis
+  #   networks:
+  #     - default
 
   # 3. Redis
+  # redis:
+  #   image: redis:alpine
+  #   restart: unless-stopped
+  #   volumes:
+  #     - redis-data:/data
+  #   networks:
+  #     - default
   redis:
     image: redis:alpine
-    restart: unless-stopped
-    volumes:
-      - redis-data:/data
     networks:
-      - default
+      - sail
 
   # 4. Database (PostgreSQL)
-  db:
-    image: postgres:16-alpine
-    restart: unless-stopped
+  # db:
+  #   image: postgres:16-alpine
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: ${DB_DATABASE:-attendance_manager_api}
+  #     POSTGRES_USER: ${DB_USERNAME:-postgres}
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+  #   ports:
+  #     - '5432:5432'
+  #   volumes:
+  #     - postgres-data:/var/lib/postgresql/data
+  #   networks:
+  #     - default
+  pgsql:
+    image: 'postgres:16'
+    ports:
+        - '5432:5432'
     environment:
-      POSTGRES_DB: ${DB_DATABASE:-attendance_manager_api}
-      POSTGRES_USER: ${DB_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+        POSTGRES_DB: '${DB_DATABASE}'
+        POSTGRES_USER: '${DB_USERNAME}'
+        POSTGRES_PASSWORD: '${DB_PASSWORD}'
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+        - 'sail-pgsql:/var/lib/postgresql/data'
     networks:
-      - default
+        - sail
 
 volumes:
-  redis-data:
-  postgres-data:
+#   redis-data:
+#   postgres-data:
+  sail-pgsql:
+    driver: local
 
 networks:
-  dokploy-network:
-    external: true
+#   dokploy-network:
+#     external: true
+  sail:
+    driver: bridge
